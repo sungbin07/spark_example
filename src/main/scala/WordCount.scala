@@ -13,20 +13,13 @@ object WordCount {
     require(args.length == 3, "Usage: WordCount <Master> <Input> <Output>")
     println(args.mkString(", "))
 
-    val sc = getSparkContext("WordCount", args(0))
+    val sc = Spark.getSparkContext("WordCount")
 
     val inputRDD = getInputRDD(sc, args(1))
 
     val resultRDD = process(inputRDD)
 
     handleResult(resultRDD, args(2))
-  }
-
-  def getSparkContext(appName: String, master: String): SparkContext = {
-    // create config
-    val conf = new SparkConf().setAppName(appName).setMaster(master)
-    // create spark context
-    new SparkContext(conf)
   }
 
   def getInputRDD(sc: SparkContext, input: String): RDD[String] = {
